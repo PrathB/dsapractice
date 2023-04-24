@@ -197,6 +197,23 @@ void sumreplace(node* root){
         root->data+= root->right->data;
     }
 }
+bool isbalanced(node* root){
+    if(root==NULL){
+        return true;
+    }
+    if(!isbalanced(root->left)){
+        return false;
+    }
+    if(!isbalanced(root->right)){
+        return false;
+    }
+    if(abs(treeheight(root->left)-treeheight(root->right))<=1){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 int main(){
     int Preorder[]={1,2,4,5,3,6,7};
     int Postorder[]={4,5,2,6,7,3,1};
@@ -204,6 +221,5 @@ int main(){
     node* root=Buildtree(Postorder,Inorder,0,6);
     printlevelorder(root);
     cout<<endl;
-    sumreplace(root);
-    printlevelorder(root);
+    cout<<isbalanced(root)<<endl;
 }
