@@ -158,30 +158,18 @@ int treeheight(node* root){
     int righth=treeheight(root->right);
     return (max(lefth,righth)+1);
 }
-int Diameter(node* root, int* height){
+int diameter(node* root, int* height){
     if(root==NULL){
         *height=0;
         return 0;
     }
     int lh=0;
     int rh=0;
-    int ld=Diameter(root->left,&lh);
-    int rd=Diameter(root->right,&rh);
+    int ld=diameter(root->left,&lh);
+    int rd=diameter(root->right,&rh);
     int currd=lh+rh+1;
     *height=max(lh,rh)+1;
     return max(currd,max(ld,rd));
-}
-int diameter(node* root){
-    if(root==NULL){
-        return 0;
-    }
-    int lheight=treeheight(root->left);
-    int rheight=treeheight(root->right);
-    int currdiameter=lheight+rheight+1;
-
-    int ldiameter=diameter(root->left);
-    int rdiameter=diameter(root->right);
-    return(max(currdiameter,max(ldiameter,rdiameter)));
 }
 void sumreplace(node* root){
     if(root == NULL){
@@ -197,17 +185,22 @@ void sumreplace(node* root){
         root->data+= root->right->data;
     }
 }
-bool isbalanced(node* root){
+
+bool isbalanced(node* root, int* height){
     if(root==NULL){
+        *height=0;
         return true;
     }
-    if(!isbalanced(root->left)){
+    int lh=0;
+    int rh=0;
+    if(!isbalanced(root->left,&lh)){
         return false;
     }
-    if(!isbalanced(root->right)){
+    if(!isbalanced(root->right,&rh)){
         return false;
     }
-    if(abs(treeheight(root->left)-treeheight(root->right))<=1){
+    int currh=max(lh,rh)+1;
+    if(abs(lh-rh)<=1){
         return true;
     }
     else{
@@ -218,8 +211,9 @@ int main(){
     int Preorder[]={1,2,4,5,3,6,7};
     int Postorder[]={4,5,2,6,7,3,1};
     int Inorder[]={4,2,5,1,6,3,7};
+    int h=0;
     node* root=Buildtree(Postorder,Inorder,0,6);
     printlevelorder(root);
     cout<<endl;
-    cout<<isbalanced(root)<<endl;
+    cout<<isbalanced(root,&h)<<endl;
 }
