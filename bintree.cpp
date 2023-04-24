@@ -207,6 +207,27 @@ bool isbalanced(node* root, int* height){
         return false;
     }
 }
+void rightview(node* root){
+    int level=0;
+    queue<node*> q;
+    q.push(root);
+    while(!q.empty()){
+        int n=q.size();
+        for(int i=0;i<n;i++){
+            node* curr=q.front();
+            q.pop();
+            if(i==n-1){
+                cout<<curr->data<<" "; 
+            }
+            if(curr->left!=NULL){
+                q.push(curr->left);
+            }
+            if(curr->right!=NULL){
+                q.push(curr->right);
+            }
+        }
+    }
+}
 int main(){
     int Preorder[]={1,2,4,5,3,6,7};
     int Postorder[]={4,5,2,6,7,3,1};
@@ -215,5 +236,5 @@ int main(){
     node* root=Buildtree(Postorder,Inorder,0,6);
     printlevelorder(root);
     cout<<endl;
-    cout<<isbalanced(root,&h)<<endl;
+    rightview(root);
 }
