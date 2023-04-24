@@ -183,11 +183,27 @@ int diameter(node* root){
     int rdiameter=diameter(root->right);
     return(max(currdiameter,max(ldiameter,rdiameter)));
 }
+void sumreplace(node* root){
+    if(root == NULL){
+        return;
+    }
+    sumreplace(root->left);
+    sumreplace(root->right);
+
+    if(root->left!=NULL){
+        root->data+= root->left->data;
+    }
+    if(root->right!=NULL){
+        root->data+= root->right->data;
+    }
+}
 int main(){
     int Preorder[]={1,2,4,5,3,6,7};
     int Postorder[]={4,5,2,6,7,3,1};
     int Inorder[]={4,2,5,1,6,3,7};
     node* root=Buildtree(Postorder,Inorder,0,6);
-    int h=0;
-    cout<<Diameter(root,&h)<<endl;
+    printlevelorder(root);
+    cout<<endl;
+    sumreplace(root);
+    printlevelorder(root);
 }
