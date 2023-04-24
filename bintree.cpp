@@ -199,7 +199,7 @@ bool isbalanced(node* root, int* height){
     if(!isbalanced(root->right,&rh)){
         return false;
     }
-    int currh=max(lh,rh)+1;
+    *height=max(lh,rh)+1;
     if(abs(lh-rh)<=1){
         return true;
     }
