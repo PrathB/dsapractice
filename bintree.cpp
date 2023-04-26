@@ -247,7 +247,6 @@ void leftview(node* root){
         }
     }
 }
-<<<<<<< HEAD
 int findDist(node* lca,int k,int d){
     if(lca==NULL){
         return -1;
@@ -294,8 +293,24 @@ int distbwnodes(node* root,int n1,int n2){
     int d2=findDist(lca,n2,0);
     return (d1+d2);
 }
-=======
->>>>>>> 41b5040264b61640cbc6e4757b049f21af2b2947
+
+void flatten(node* root){
+    if(root==NULL || (root->left==NULL && root->right==NULL)){
+        return;
+    }
+    if(root->left!=NULL){
+        flatten(root->left);
+        node* temp=root->right;
+        root->right=root->left;
+        root->left=NULL;
+        node* tail=root;
+        while(tail->right!=NULL){
+            tail=tail->right;
+        }
+        tail->right=temp;
+    }
+    flatten(root->right);
+}   
 int main(){
     int Preorder[]={1,2,4,5,3,6,7};
     int Postorder[]={4,5,2,6,7,3,1};
@@ -304,9 +319,6 @@ int main(){
     node* root=Buildtree(Postorder,Inorder,0,6);
     printlevelorder(root);
     cout<<endl;
-<<<<<<< HEAD
-    cout<<distbwnodes(root,2,3);
-=======
-    leftview(root);
->>>>>>> 41b5040264b61640cbc6e4757b049f21af2b2947
+    flatten(root);
+    printlevelorder(root);
 }
