@@ -271,8 +271,8 @@ node* LCA(node* root, int n1, int n2){
     if(root->data==(n1 || n2)){
         return root;
     }
-    node* l=LCA(root->left,n1,0);
-    node* r=LCA(root->right,n2,0);
+    node* l=LCA(root->left,n1,n2);
+    node* r=LCA(root->right,n1,n2);
     if(l!=NULL && r!=NULL){
         return root;
     }
@@ -311,6 +311,48 @@ void flatten(node* root){
     }
     flatten(root->right);
 }   
+void printsubtreenodes(node * target,int k){
+    if(target==NULL || k<0){
+        return;
+    }
+    if(k==0){
+        cout<<target->data<<" ";
+        return;
+    }
+    printsubtreenodes(target->left,k-1);
+    printsubtreenodes(target->right,k-1);
+}
+
+int printnodesatk(node* root,node* target,int k){
+    if(root==NULL){
+        return -1;
+    }
+    if(root==target){
+        printsubtreenodes(root,k);
+        return 0;
+    }
+    int dl=printnodesatk(root->left,target,k);
+    if(dl!=-1){
+        if(dl+1==k){
+            cout<<root->data<<endl;
+        }
+        else{
+            printsubtreenodes(root->right,k-dl-2);
+        }
+        return dl+1;
+    }   
+    int dr=printnodesatk(root->right,target,k);
+    if(dr=-1){
+        if(dr+1==k){
+            cout<<root->data<<" ";
+        }
+        else{
+            printsubtreenodes(root->left,k-dr-2);
+        }
+        return dr+1;
+    }
+    return -1;
+}
 int main(){
     int Preorder[]={1,2,4,5,3,6,7};
     int Postorder[]={4,5,2,6,7,3,1};
@@ -319,6 +361,6 @@ int main(){
     node* root=Buildtree(Postorder,Inorder,0,6);
     printlevelorder(root);
     cout<<endl;
-    flatten(root);
-    printlevelorder(root);
+    printnodesatk(root,root->left,2);
+
 }
