@@ -353,14 +353,26 @@ int printnodesatk(node* root,node* target,int k){
     }
     return -1;
 }
+
+int maxpathsum(node* root, int &ans){
+    if(root==NULL){
+        return 0;
+    }
+    int lmax=maxpathsum(root->left,ans);
+    int rmax=maxpathsum(root->right,ans);
+    int currmax=max(max(lmax+(root->data),rmax+(root->data)),max(root->data,lmax+rmax+(root->data)));
+    ans=max(ans,currmax);
+    return max(max(lmax+(root->data),rmax+(root->data)),root->data);
+}
+
 int main(){
     int Preorder[]={1,2,4,5,3,6,7};
     int Postorder[]={4,5,2,6,7,3,1};
     int Inorder[]={4,2,5,1,6,3,7};
-    int h=0;
+    int ans=0;
     node* root=Buildtree(Postorder,Inorder,0,6);
     printlevelorder(root);
     cout<<endl;
-    printnodesatk(root,root->left,2);
-
+    maxpathsum(root,ans);
+    cout<<ans<<endl;
 }
