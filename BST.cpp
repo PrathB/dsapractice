@@ -35,6 +35,21 @@ node* insertBST(node* root,int val){
     return root;
 }
 
+node* searchBST(node* root, int key){
+    if(root==NULL){
+        return NULL;
+    }
+    if(root->data==key){
+        return root;
+    }
+    else if(key<(root->data)){
+        return searchBST(root->left,key);
+    }
+    else if(key>(root->data)){
+        return searchBST(root->right,key);
+    }
+}
+
 int main(){
     node* root=NULL;
     root=insertBST(root,1);
