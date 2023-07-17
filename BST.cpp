@@ -117,10 +117,19 @@ bool isBST(node* root,node * min=NULL, node* max=NULL){
     bool rvalid=isBST(root->right,root,max);
     return lvalid && rvalid;
 }
-int main(){
-    node* root1=new node(2);
-    root1->left=new node(1);
-    root1->right=new node(3);
-    cout<<isBST(root1);
 
+node* sortedarraytoBST(int arr[],int s,int e){
+    if(s>e){
+        return NULL;
+    }
+    int mid=(s+e)/2;
+    node* root=new node(arr[mid]);
+    root->left=sortedarraytoBST(arr,s,mid-1);
+    root->right=sortedarraytoBST(arr,mid+1,e);
+    return root;
+}
+int main(){
+    int arr[]={10,20,30,40,50};
+    node* root1=sortedarraytoBST(arr,0,4);
+    inorder(root1);
 }
