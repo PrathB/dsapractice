@@ -102,9 +102,25 @@ node* constructBST(int preorder[],int* preorderidx,int key,int min,int max,int n
     
     return root;
 }
+
+bool isBST(node* root,node * min=NULL, node* max=NULL){
+    if(root==NULL){
+        return true;
+    }
+    if(min!=NULL && root->data<=min->data){
+        return false;
+    }
+    if(max!=NULL && root->data>=max->data){
+        return false;
+    }
+    bool lvalid=isBST(root->left,min,root);
+    bool rvalid=isBST(root->right,root,max);
+    return lvalid && rvalid;
+}
 int main(){
-    int preorder[]={7,5,4,6,8,9};
-    int idx=0;
-    node* root=constructBST(preorder,&idx,preorder[0],INT8_MIN,INT8_MAX,6);
-    inorder(root);
+    node* root1=new node(2);
+    root1->left=new node(1);
+    root1->right=new node(3);
+    cout<<isBST(root1);
+
 }
