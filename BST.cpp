@@ -82,13 +82,29 @@ node* deleteInBST(node* root,int key){
     }
     return root;
 }
-int main(){
+
+node* constructBST(int preorder[],int* preorderidx,int key,int min,int max,int n){
+    if(*preorderidx>n){
+        return NULL;
+    }
     node* root=NULL;
-    root=insertBST(root,1);
-    insertBST(root,3);
-    insertBST(root,4);
-    insertBST(root,2);
-    insertBST(root,7);
-    root=deleteInBST(root,3);
+    if(key>min && key<max){
+        root=new node(key);
+        *preorderidx+=1;
+
+        if(*preorderidx<n){
+            root->left=constructBST(preorder,preorderidx,preorder[*preorderidx],min,key,n);
+        }
+        if(*preorderidx<n){
+            root->right=constructBST(preorder,preorderidx,preorder[*preorderidx],key,max,n);
+        }
+    }
+    
+    return root;
+}
+int main(){
+    int preorder[]={7,5,4,6,8,9};
+    int idx=0;
+    node* root=constructBST(preorder,&idx,preorder[0],INT8_MIN,INT8_MAX,6);
     inorder(root);
 }
