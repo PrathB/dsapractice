@@ -158,11 +158,35 @@ void zigzagtraversal(node* root){
         }
     } 
 }
+
+bool isidentical(node* root1,node* root2){
+    if(root1==NULL && root2==NULL){
+        return true;
+    }
+    else if(root1==NULL || root2==NULL){
+        return false;
+    }
+    else{
+        if(root1->data==root2->data && isidentical(root1->left,root2->left) && isidentical(root1->right,root2->right)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+}
+
 int main(){
-    node* root=new node(12);
-    root->left=new node(9);
-    root->right=new node(15);
-    root->left->left=new node(5);
-    root->left->right=new node(10);
-    zigzagtraversal(root);
+    node* root1=new node(12);
+    root1->left=new node(9);
+    root1->right=new node(15);
+    root1->left->left=new node(5);
+    root1->left->right=new node(10);
+
+    node* root2=new node(12);
+    root2->left=new node(9);
+    root2->right=new node(15);
+    root2->left->left=new node(5);
+    root2->left->right=new node(10);
+    cout<<isidentical(root1,root2);
 }
