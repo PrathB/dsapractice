@@ -1,4 +1,5 @@
 #include<iostream>
+#include<stack>
 using namespace std;
 class node{
     public:
@@ -128,8 +129,40 @@ node* sortedarraytoBST(int arr[],int s,int e){
     root->right=sortedarraytoBST(arr,mid+1,e);
     return root;
 }
+
+void zigzagtraversal(node* root){
+    stack<node*> currlvl;
+    stack<node*> nextlvl;
+    bool lefttoright=true;
+    currlvl.push(root);
+    while(!currlvl.empty()){
+        cout<<currlvl.top()->data<<" ";
+        if(lefttoright){
+            if(currlvl.top()->left!=NULL){
+                nextlvl.push(currlvl.top()->left);}
+            if(currlvl.top()->right!=NULL){
+                nextlvl.push(currlvl.top()->right);}
+        }
+        else{
+            if(currlvl.top()->right!=NULL)    
+                nextlvl.push(currlvl.top()->right);
+            if(currlvl.top()->left!=NULL){
+                nextlvl.push(currlvl.top()->left);}
+        }
+        currlvl.pop();
+        if(currlvl.empty()){
+            lefttoright=!lefttoright;
+            stack<node*> temp=nextlvl;
+            nextlvl=currlvl;
+            currlvl=temp;
+        }
+    } 
+}
 int main(){
-    int arr[]={10,20,30,40,50};
-    node* root1=sortedarraytoBST(arr,0,4);
-    inorder(root1);
+    node* root=new node(12);
+    root->left=new node(9);
+    root->right=new node(15);
+    root->left->left=new node(5);
+    root->left->right=new node(10);
+    zigzagtraversal(root);
 }
