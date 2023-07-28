@@ -57,6 +57,25 @@ class heap{
 
 };
 
+void heapify(int arr[],int n,int i){
+    int largest=i;
+    int lchild=2*i;
+    int rchild=(2*i)+1;
+
+    if(lchild<=n && arr[largest]<arr[lchild]){
+        largest=lchild;
+    }
+    if(rchild<=n && arr[largest]<arr[rchild]){
+        largest=rchild;
+    }
+
+    if(largest!=i){
+        swap(arr[largest],arr[i]);
+        heapify(arr,n,largest);
+    }
+    return;
+}
+
 int main(){
     heap h;
     h.insert(50);
@@ -68,4 +87,15 @@ int main(){
     cout<<endl;
     h.deleteroot();
     h.print();
+    cout<<endl;
+
+    int arr[]={-1,54,53,55,52,50};
+    int n=6;
+    for(int i=n/2;i>=1;i--){
+       heapify(arr,n,i); 
+    }
+
+    for(int i=1;i<n;i++){
+        cout<<arr[i]<<" ";
+    }
 }
