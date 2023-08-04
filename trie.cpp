@@ -16,25 +16,33 @@ class trienode{
     }
 };
 
-void insertword(trienode* root,string word){
-    if(word.size()==0){
-        root->isterminal=true;
-        return;
-    }
+class trie{
+    public:
+    trienode* root;
 
-    int index=word[0]-'A';
-    if(root->children[index]==NULL){
-        root->children[index]=new trienode(word[0]);
+    trie(){
+        root=new trienode('\0');
     }
-    else{
-        root->children[index]->data=word[0];
+    
+    void insertword(trienode* root,string word){
+        if(word.size()==0){
+            root->isterminal=true;
+            return;
+        }
+
+        int index=word[0]-'A';
+        if(root->children[index]==NULL){
+            root->children[index]=new trienode(word[0]);
+        }
+        else{
+            root->children[index]->data=word[0];
+        }
+
+        insertword(root->children[index],word.substr(1));
     }
-
-    insertword(root->children[index],word.substr(1));
-}
-
+};
 int main(){
-    trienode* root=new trienode('\0');
-    insertword(root,"HELLO");
+    trie* t=new trie();
+    t->insertword(t->root,"HELLO");
     return 0;
 }
