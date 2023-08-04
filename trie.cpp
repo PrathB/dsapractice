@@ -24,6 +24,8 @@ class trie{
         root=new trienode('\0');
     }
     
+    //Functions are created to work for string with capital letters only
+    
     void insertword(trienode* root,string word){
         if(word.size()==0){
             root->isterminal=true;
@@ -40,9 +42,27 @@ class trie{
 
         insertword(root->children[index],word.substr(1));
     }
+
+    bool searchword(trienode* root,string word){
+        if(word.size()==0){
+            return root->isterminal;
+        }
+
+        int index=word[0]-'A';
+        trienode* child;
+        if(root->children[index]!=NULL){
+            child=root->children[index];
+        }
+        else{
+            return false;
+        }
+
+        return searchword(child,word.substr(1));
+    }
 };
 int main(){
     trie* t=new trie();
     t->insertword(t->root,"HELLO");
+    cout<<t->searchword(t->root,"HELL");
     return 0;
 }
